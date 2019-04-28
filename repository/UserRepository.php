@@ -12,5 +12,6 @@ interface UserRepository{
     //Extra
     function newGetOne();
     function generateId();
+    function login(User $user);
 
 }

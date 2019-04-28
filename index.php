@@ -1,15 +1,29 @@
 <?php 
-require_once 'repository\UserRepositoryImpl.php';
-require_once 'model\User.php';
-use repository\UserRepositoryImpl;
-use model\User;
+//Importes
+require_once 'controller\NavegacionController.php';
+require_once 'controller\UserController.php';
+//Use
+use controller\NavegacionController;
+use controller\UserController;
 
-$dao = new UserRepositoryImpl();
-$list = $dao->findAll();
+//Default
+$controlador_home="navegacion";
+$controlador_home_action="home";
+// Captura de peticiones
+$controlador = isset($_REQUEST["controlador"])?$_REQUEST["controlador"]:$controlador_home;
+$action = isset($_REQUEST["action"])?$_REQUEST["action"]:$controlador_home_action;
+// Casos de peticiones
+switch($controlador){
+    case "navegacion":
+        $navegacionController = new NavegacionController();
+        if ($action == "home"){$navegacionController->home();}
+       
+        ;break;
 
-echo "<br>============================<br>";
+        case "user":
+        $userController = new UserController();
+        if ($action == "login") {$userController->login();}
+        if ($action == "salir") {$userController->salir();}
 
-$list = $dao->findAll();
-foreach($list as $e){
-    echo $e["id"]." - ".$e["username"]."<br>";
+        ;break;
 }

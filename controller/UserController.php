@@ -15,43 +15,24 @@ class UserController{
         
     }
 
-    function save(User $user){
+    public function login(){
+        
         $user = new User();
-        $user->id = isset($_POST["id"]);
-        $user->username = isset($_POST["username"]);
-        $user->password = isset($_POST["password"]);
-
-        if($user->id!=0){
-            $this->dao->update($user);
+        $user->username=isset($_POST["username"])?$_POST["username"]:"";
+        $user->password=isset($_POST["password"])?$_POST["password"]:"";
+        $flag = $this->dao->login($user);
+        if($flag==1){
+            require_once 'web\templates\plantillas\inicio_header.php';
+            require_once 'web\templates\inicio\inicio.php';
+            require_once 'web\templates\plantillas\home_footer.php';
+           
         }else{
-            $this->dao->save($user);
+
         }
-
-        return $this->findAll();
     }
-
-    function findAll(){
-
-    }
- 
-    function deleteById(){
-        $user = new User();
-        $user->id = isset($_POST["id"])?$_POST["id"]:"0";
-        if($user->id!=0){
-            $this->dao->deleteById($user->id);
-        }else{
-            // Alert
-        }
-
-        return $this->findAll();
-    }
-    function getOne(){
-        $user = new User();
-        $user->id=isset($_GET["id"]) ? $_GET["id"] : "0";
-        if($user->id !=0){
-            $user = $this->dao->getOne($user->id);
-        }else{
-            $user = $this->dao->newGetOne($user->id);
-        }
+    public function salir(){
+        require_once 'web\templates\plantillas\home_header.php';
+        require_once 'web\home.php';
+        require_once 'web\templates\plantillas\home_footer.php';
     }
 }

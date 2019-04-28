@@ -70,4 +70,16 @@ class UserRepositoryImpl implements UserRepository{
         return $id["0"];
 
     }
+    public function login(User $user){
+        $stmt =$this->link->prepare("select * from user where username = :username and password = :password");
+        $stmt->bindParam(":username",$user->username,PDO::PARAM_STR);
+        $stmt->bindParam(":password",$user->password,PDO::PARAM_STR);
+        $stmt->execute();
+        if($stmt->fetch()){
+            return 1;
+        }else{
+            return 0;
+        }
+        $stmt->close();
+    }
 }
